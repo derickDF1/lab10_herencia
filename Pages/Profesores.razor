@@ -1,0 +1,33 @@
+﻿<h3>Profesores</h3>
+
+
+
+@if (profesores == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>No. Colegiado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var profesor in profesores)
+            {
+                <tr>
+                    <td>@profesor.Titulo</td>
+                    <td>@profesor.NumColegiado</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Profesor> profesores;
+
+}
