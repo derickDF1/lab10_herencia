@@ -1,0 +1,17 @@
+[
+  {
+    "Dpi": "12345",
+    "Nombre": "Pablo Barrios",
+    "Direccion": "Quetzaltenango"
+  },
+  {
+    "Dpi": "12346",
+    "Nombre": "Juan Perez",
+    "Direccion": "Quetzaltenango"
+  },
+  {
+    "Dpi": "12347",
+    "Nombre": "Julio Sagastume",
+    "Direccion": "Guatemala"
+  }
+]
