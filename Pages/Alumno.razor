@@ -1,0 +1,41 @@
+﻿@page "/alumno"
+@inject HttpClient Http
+<h3>Alumnos</h3>
+
+<div>
+    @if (alumnos == null)
+    {
+        <p><em>Cargando...</em></p>
+    }
+    else
+    {
+        <select class="form-select" aria-label="Default select example" @bind="@carnetAlumno">
+            <option selected>Seleccione al alumno</option>
+            @foreach (var alumno in alumnos)
+            {
+                <option value="@alumno.carnetAlumno">@alumno.carnetAlumno</option>
+            }
+        </select>
+    }
+</div>
+
+<div>
+    <button class="btn btn-primary" @onclick="GuardarAlumno">Inscribir Alumno</button>
+</div>
+
+@code {
+    List<Alumno> alumnos;
+
+    string carnetAlumno;
+
+    protected override async Task OnInitializedAsync()
+    {
+        alumnos = await Http.GetFromJsonAsync<List<Alumno>>("sample-data/alumnos.json");
+        //inscripciones = await localStorage.GetItemAsync<List<Inscripcion>>("inscripciones");
+    }
+
+    public void GuardarAlumno()
+        {
+
+        }
+}
