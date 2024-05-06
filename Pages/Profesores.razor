@@ -34,10 +34,10 @@
     </div>
     <div class="form-group">
         <label for="Colegiado">Número de Colegiado</label>
-        <InputText id="Colegiado" @bind-Value="profesor.NumeroColegiado" class="form-control" />
+        <InputText id="Colegiado" @bind-Value="profesor.NumColegiado" class="form-control" />
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" @onclick="@Guardar">Guardar</button>
     </div>
 </EditForm>
 
@@ -63,7 +63,7 @@
     <td>@profesor.FechaNacimiento</td>
     <td>@profesor.Titulo</td>
     <td>@profesor.NumColegiado</td>
-    <td><button class="btn btn-danger" @onclick="@(() => BorrarCatedratico(profesor.NumeroColegiado))">Eliminar</button></td>
+    <td><button class="btn btn-danger" @onclick="@(() => BorrarCatedratico(profesor.NumColegiado))">Eliminar</button></td>
 </tr>}
     </tbody>
 </table>}
@@ -90,8 +90,7 @@
 
     protected async Task BorrarCatedratico(string NumeroColegiado)
     {
-        profesores.Remove(profesores.First(c => c.NumeroColegiado == NumeroColegiado));
+        profesores.Remove(profesores.First(c => c.NumColegiado == NumeroColegiado));
         await localStorage.SetItemAsync("profesores", profesores);
-
     }
 }
