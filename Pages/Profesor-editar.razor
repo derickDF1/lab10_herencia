@@ -1,11 +1,11 @@
-﻿@page "/Profesor"
+﻿@page "/Profesor-editar/{colegiado}"
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
-@inject NavigationManager NavigationManager
+@inject NavigationManager NavigationManager 
 
 
 
-<h3>Profesor</h3>
+<h3>Profesor Editar</h3>
 
 <EditForm Model="@profesor" OnValidSubmit="@Guardar">
 
@@ -43,66 +43,30 @@
     </div>
 </EditForm>
 
-@if (profesores != null)
+@code
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Fecha Nacimiento</th>
-                <th>Título</th>
-                <th>Colegiado</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var profesor in profesores)
-            {
-                <tr>
-                    <td>@profesor.Nombre</td>
-                    <td>@profesor.Apellido</td>
-                    <td>@profesor.FechaNacimiento</td>
-                    <td>@profesor.Titulo</td>
-                    <td>@profesor.NumColegiado</td>
-                        <td>
-                            <button class="btn btn-warning"
-                            @onclick="@(() => NavigationManager.NavigateTo($"/Profesor-editar/{profesor.NumColegiado}"))">
-                                Editar
-                            </button>
-                        </td>
-                        <td><button class="btn btn-danger" @onclick="@(() => BorrarCatedratico(profesor.NumColegiado))">Eliminar</button></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    }
-
-@code {
-
+    [Parameter]
+    public string colegiado { get; set; }
     private Profesor profesor = new Profesor();
     List<Profesor> profesores = new List<Profesor>();
 
 
     protected async Task Guardar()
     {
-        profesores.Add(profesor);
-
-        await localStorage.SetItemAsync("profesores",profesores);
+        // Volver a guardar la lista modificada
+        await localStorage.SetItemAsync("profesores", profesores);
+        //Después de grabar regresar al formulario de crear
+        NavigationManager.NavigateTo("/Profesor");
 
     }
 
     protected override async Task OnInitializedAsync()
-    {   //La primera vez que se corre poner en comentarios, pues como no existen datos
-        //convierta la lista catedraticos en null
-        profesores = await localStorage.GetItemAsync<List<Profesor>>("profesores");
-    }
-
-    protected async Task BorrarCatedratico(string NumColegiado)
     {
-        profesores.Remove(profesores.Find(c => c.NumColegiado == NumColegiado));
-        await localStorage.SetItemAsync("profesores", profesores);
+        //Cargar todos los catedraticos guardados
+        profesores = await localStorage.GetItemAsync<List<Profesor>>("profesores");
 
+        //Buscar en la lista de catedráticos el catedrático con el colegiado que se recibió como parámetro.
+        profesor = profesores.FirstOrDefault(c => c.NumColegiado == colegiado);
     }
 
 }
