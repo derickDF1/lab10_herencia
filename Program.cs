@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Blazored.LocalStorage;
 namespace lab10_herencia
 {
     public class Program

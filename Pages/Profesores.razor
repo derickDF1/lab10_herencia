@@ -3,7 +3,7 @@
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
 
-<h3>Profesor</h3>
+<h3>Editar Profesor</h3>
 
 <EditForm Model="@profesor" OnValidSubmit="@Guardar">
 
@@ -66,7 +66,7 @@
 
     <td>
         <button class="btn btn-warning"
-                @onclick="@(() => NavigationManager.NavigateTo($"/catedratico-editar/{profesor.NumColegiado}"))">
+                @onclick="@(() => NavigationManager.NavigateTo($"/Profesor-editar/{profesor.NumColegiado}"))">
             Editar
         </button>
     </td>
