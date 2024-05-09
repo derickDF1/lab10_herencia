@@ -1,4 +1,4 @@
-﻿@page "/Profesor"
+﻿@page "/Profesor-editar"
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
@@ -66,8 +66,8 @@
 
     <td>
         <button class="btn btn-warning"
-                @onclick="@(() => NavigationManager.NavigateTo($"/catedratico-editar/{profesor.NumColegiado}"))">
-            Editar
+                @onclick="@(() => BorrarCatedratico(profesor.NumColegiado))">
+            Eliminar
         </button>
     </td>
     <td><button class="btn btn-danger" @onclick="@(() => BorrarCatedratico(profesor.NumColegiado))">Eliminar</button></td>
