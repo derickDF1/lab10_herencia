@@ -1,0 +1,72 @@
+﻿@page "/Profesor-editar/{colegiado}"
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager 
+
+
+
+<h3>Profesor Editar</h3>
+
+<EditForm Model="@profesor" OnValidSubmit="@Guardar">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="Nombre">Nombre del Catedrático</label>
+        <InputText id="Nombre" @bind-Value="profesor.Nombre" class="form-control" />
+        <ValidationMessage For="() => profesor.Nombre" />
+    </div>
+    <div class="form-group">
+        <label for="Apellido">Apellido del Catedrático</label>
+        <InputText id="Apellido" @bind-Value="profesor.Apellido" class="form-control" />
+        <ValidationMessage For="() => profesor.Apellido" />
+    </div>
+    <div class="form-group">
+        <label for="Direccion">Dirección del Catedrático</label>
+        <InputText id="Direccion" @bind-Value="profesor.Direccion" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="FechaNacimiento">Fecha de Nacimiento</label>
+        <InputDate id="FechaNacimiento" @bind-Value="profesor.FechaNacimiento" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Titulo">Título Obtenido</label>
+        <InputText id="Titulo" @bind-Value="profesor.Titulo" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Colegiado">Número de Colegiado</label>
+        <InputText id="Colegiado" @bind-Value="profesor.NumColegiado" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" @onclick="@Guardar">Guardar</button>
+    </div>
+</EditForm>
+
+@code
+{
+    [Parameter]
+    public string colegiado { get; set; }
+    private Profesor profesor = new Profesor();
+    List<Profesor> profesores = new List<Profesor>();
+
+
+    protected async Task Guardar()
+    {
+        // Volver a guardar la lista modificada
+        await localStorage.SetItemAsync("profesores", profesores);
+        //Después de grabar regresar al formulario de crear
+        NavigationManager.NavigateTo("/Profesor");
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Cargar todos los catedraticos guardados
+        profesores = await localStorage.GetItemAsync<List<Profesor>>("profesores");
+
+        //Buscar en la lista de catedráticos el catedrático con el colegiado que se recibió como parámetro.
+        profesor = profesores.FirstOrDefault(c => c.NumColegiado == colegiado);
+    }
+
+}
