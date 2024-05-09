@@ -1,4 +1,4 @@
-﻿@page "/alumnos"
+﻿@page "/alumno"
 @inject HttpClient Http
 <h3>Alumnos</h3>
 
@@ -13,7 +13,7 @@
             <option selected>Seleccione al alumno</option>
             @foreach (var alumno in alumnos)
             {
-                <option value="@alumno.Carnet">@alumno.Nombre</option>
+                <option value="@alumno.carnetAlumno">@alumno.carnetAlumno</option>
             }
         </select>
     }

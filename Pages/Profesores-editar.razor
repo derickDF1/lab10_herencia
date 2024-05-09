@@ -1,10 +1,9 @@
-
-﻿@page "/Profesor"
+﻿@page "/Profesor-editar"
 @inject HttpClient Http
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
 
-<h3>Editar Profesor</h3>
+<h3>Profesor</h3>
 
 <EditForm Model="@profesor" OnValidSubmit="@Guardar">
 
@@ -64,41 +63,34 @@
     <td>@profesor.FechaNacimiento</td>
     <td>@profesor.Titulo</td>
     <td>@profesor.NumColegiado</td>
-
-    <td>
-        <button class="btn btn-warning"
-                @onclick="@(() => NavigationManager.NavigateTo($"/Profesor-editar/{profesor.NumColegiado}"))">
-            Editar
-        </button>
-    </td>
-    <td><button class="btn btn-danger" @onclick="@(() => BorrarCatedratico(profesor.NumColegiado))">Eliminar</button></td>
 </tr>}
     </tbody>
 </table>}
 
 @code
 {
+    [Parameter]
+    public string colegiado { get; set; }
     private Profesor profesor = new Profesor();
     List<Profesor> profesores = new List<Profesor>();
 
 
     protected async Task Guardar()
     {
-        profesores.Add(profesor);
-
+        // Volver a guardar la lista modificada
         await localStorage.SetItemAsync("profesores", profesores);
+        //Después de grabar regresar al formulario de crear
+        NavigationManager.NavigateTo("/catedratico-crear");
 
     }
 
     protected override async Task OnInitializedAsync()
-    {   //La primera vez que se corre poner en comentarios, pues como no existen datos
-        //convierta la lista catedraticos en null
+    {
+        //Cargar todos los catedraticos guardados
         profesores = await localStorage.GetItemAsync<List<Profesor>>("profesores");
+
+        //Buscar en la lista de catedráticos el catedrático con el colegiado que se recibió como parámetro.
+        profesor = profesores.FirstOrDefault(c => c.NumColegiado == colegiado);
     }
 
-    protected async Task BorrarCatedratico(string NumeroColegiado)
-    {
-        profesores.Remove(profesores.First(c => c.NumColegiado == NumeroColegiado));
-        await localStorage.SetItemAsync("profesores", profesores);
-    }
 }
